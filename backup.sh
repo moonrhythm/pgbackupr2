@@ -32,7 +32,7 @@ acl = private
 EOF
 
 if [[ -z "${PGDATABASE}" ]]; then
-  pg_dumpall | gzip | rclone rcat r2://$BUCKET/$PREFIX$(date +"%Y%m%d%H%M%S")$SUFFIX.sql.gz
+  pg_dumpall | gzip | rclone rcat r2://$BUCKET/$PREFIX$(date +"%Y%m%d%H%M%S")$SUFFIX.sql.gz --s3-upload-cutoff=100M --s3-chunk-size=100M
 else
-  pg_dump | gzip | rclone rcat r2://$BUCKET/$PREFIX$(date +"%Y%m%d%H%M%S")$SUFFIX.sql.gz
+  pg_dump | gzip | rclone rcat r2://$BUCKET/$PREFIX$(date +"%Y%m%d%H%M%S")$SUFFIX.sql.gz --s3-upload-cutoff=100M --s3-chunk-size=100M
 fi
